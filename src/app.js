@@ -5,8 +5,11 @@ const app = express();  //create new express js application
 const cookieParser = require('cookie-parser'); //import cookie-parser library to parse the cookies
 const cors = require('cors');
 
+require('dotenv').config()
+
+
 app.use(cors({
-    origin: "http://localhost:5174", //allow requests from this origin
+    origin: "http://localhost:5173", //allow requests from this origin
     credentials: true, //allow cookies to be sent with the request
 }))
 app.use(express.json()); //middleware to parse incoming request with JSON payloads
@@ -24,7 +27,7 @@ app.use("/",userRouter); //use user router for all requests
 
 connectDB().then(() => {
     console.log("database connected");
-    app.listen(4000, () => {
+    app.listen(process.env.PORT, () => {
         console.log("running port no. 4000")
     })
 })

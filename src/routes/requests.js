@@ -3,6 +3,8 @@ const requestRouter = express.Router();
 const {userAuth} = require("../middlewares/auth"); //import userAuth middleware to authenticate the user 
 const ConnectionRequestModel = require('../models/connectionRequest');
 const User = require('../models/user');
+const sendEmail = require("../utils/sendEmail")
+
 
 requestRouter.post("/request/send/:status/:toUserId", userAuth, async (req, res) => {    
 try{
@@ -34,6 +36,8 @@ try{
         return res.status(400).json({message:"Connection request already exists"});
     }
     const data = await connectionRequest.save();
+    const emailRes = await sendEmail.run()
+
     return res.json({message:"Connection request send sucussfully",data})
 
 }catch(err){
